@@ -3,14 +3,17 @@ package br.com.iDantas.wallet_core_api.database.model;
 import br.com.iDantas.wallet_core_api.enums.ClientType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
+@Builder
 @Table(name = "tb_users")
 public class Users {
 
@@ -24,10 +27,10 @@ public class Users {
     @Column
     private String password;
 
-    @Column
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(length = 11)
+    @Column(length = 11, unique = true, nullable = false)
     private String cpf;
 
     @Column
