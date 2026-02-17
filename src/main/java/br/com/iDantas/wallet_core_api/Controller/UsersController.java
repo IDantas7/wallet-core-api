@@ -2,6 +2,7 @@ package br.com.iDantas.wallet_core_api.Controller;
 
 import br.com.iDantas.wallet_core_api.database.model.Users;
 import br.com.iDantas.wallet_core_api.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class UsersController {
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public Users createUser(@RequestBody Users user){
+    public Users createUser(@Valid @RequestBody Users user){
         return userService.createUser(user);
     }
 
@@ -31,5 +32,11 @@ public class UsersController {
     @ResponseStatus(HttpStatus.OK)
     public Users updateUser(@PathVariable Long id, @RequestBody Users user){
         return userService.updateUser(id, user);
+    }
+
+    @DeleteMapping("user/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
     }
 }
