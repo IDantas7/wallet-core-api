@@ -1,6 +1,7 @@
 package br.com.iDantas.wallet_core_api.Controller;
 
 import br.com.iDantas.wallet_core_api.database.model.Users;
+import br.com.iDantas.wallet_core_api.dto.UsersRequest;
 import br.com.iDantas.wallet_core_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,19 +18,19 @@ public class UsersController {
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public Users createUser(@RequestBody Users user){
+    public UsersRequest createUser(@RequestBody UsersRequest user){
         return userService.createUser(user);
     }
 
     @GetMapping("user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Users findUserById(@PathVariable Long id){
+    public UsersRequest findUserById(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
     @PostMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Users updateUser(@PathVariable Long id, @RequestBody Users user){
+    public UsersRequest updateUser(@PathVariable Long id, @RequestBody UsersRequest user){
         return userService.updateUser(id, user);
     }
 }
