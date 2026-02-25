@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RestController
 @RequestMapping("/wallet-core")
@@ -24,19 +26,25 @@ public class UsersController {
 
     @GetMapping("user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Users findUserById(@PathVariable Long id){
+    public Users findUserById(@PathVariable String id){
         return userService.getUserById(id);
     }
 
-    @PostMapping("/user/{id}")
+    @GetMapping("user")
     @ResponseStatus(HttpStatus.OK)
-    public Users updateUser(@PathVariable Long id, @RequestBody Users user){
+    public List<Users> getAllUser(){
+        return userService.getAllUsers();
+    }
+
+    @PutMapping("/user/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Users updateUser(@PathVariable String id, @RequestBody Users user){
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("user/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id){
+    public void deleteUser(@PathVariable String id){
         userService.deleteUser(id);
     }
 }
