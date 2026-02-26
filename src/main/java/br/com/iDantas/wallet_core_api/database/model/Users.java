@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -21,7 +22,7 @@ public class Users {
     private String id;
 
     @Column
-    private String username;
+    private String name;
 
     @Column
     @Size(min=8)
