@@ -5,11 +5,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class UsersRequest {
 
     private String id;
@@ -18,13 +15,8 @@ public class UsersRequest {
     private String email;
     private String cpf;
     private ClientType type;
+    private BigDecimal balance;
 
-    public UsersRequest(String id, String username, String password, String email, String cpf, ClientType type, BigDecimal balance) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.cpf = cpf;
-        this.type = type;
-    }
+
+
 }

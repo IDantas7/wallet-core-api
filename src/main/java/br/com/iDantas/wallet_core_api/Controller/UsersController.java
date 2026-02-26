@@ -1,6 +1,7 @@
 package br.com.iDantas.wallet_core_api.Controller;
 
 import br.com.iDantas.wallet_core_api.database.model.Users;
+import br.com.iDantas.wallet_core_api.dto.UserRequestDisplay;
 import br.com.iDantas.wallet_core_api.dto.UsersRequest;
 import br.com.iDantas.wallet_core_api.service.UserService;
 import jakarta.validation.Valid;
@@ -21,25 +22,25 @@ public class UsersController {
 
     @PostMapping("/user")
     @ResponseStatus(HttpStatus.CREATED)
-    public UsersRequest createUser(@Valid @RequestBody UsersRequest user){
+    public UserRequestDisplay createUser(@RequestBody @Valid UsersRequest user){
         return userService.createUser(user);
     }
 
     @GetMapping("user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UsersRequest findUserById(@PathVariable String id){
+    public UserRequestDisplay findUserById(@PathVariable String id){
         return userService.getUserById(id);
     }
 
     @GetMapping("user")
     @ResponseStatus(HttpStatus.OK)
-    public List<UsersRequest> getAllUser(){
+    public List<UserRequestDisplay> getAllUser(){
         return userService.getAllUsers();
     }
 
-    @PutMapping("/user/{id}")
+    @PatchMapping("/user/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UsersRequest updateUser(@PathVariable String id, @RequestBody UsersRequest user){
+    public UserRequestDisplay updateUser(@PathVariable String id, @RequestBody UsersRequest user){
         return userService.updateUser(id, user);
     }
 

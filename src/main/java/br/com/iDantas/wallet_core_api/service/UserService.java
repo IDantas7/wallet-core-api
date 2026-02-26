@@ -1,10 +1,14 @@
 package br.com.iDantas.wallet_core_api.service;
 
 
+import br.com.iDantas.wallet_core_api.database.model.Users;
 import br.com.iDantas.wallet_core_api.database.repository.UsersRepository;
+import br.com.iDantas.wallet_core_api.dto.UserRequestDisplay;
 import br.com.iDantas.wallet_core_api.dto.UsersRequest;
 import br.com.iDantas.wallet_core_api.exception.BusinessException;
 import br.com.iDantas.wallet_core_api.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -28,37 +32,56 @@ public class UserService {
         }
     }
 
-    public UsersRequest createUser(UsersRequest users) {
-        validateUserUniqueness(users, null);
-        return usersRepository.save(users);
+    public UserRequestDisplay createUser(UsersRequest dto) {
+        Users user = new Users();
+        BeanUtils.copyProperties(dto, user);
+        validateUserUniqueness(dto, null);
+        Users userCreated =  usersRepository.save(user);
+        return new UserRequestDisplay(userCreated);
     }
 
-    public UsersRequest getUserById(String id){
-        Optional<UsersRequest> optionalUsers = usersRepository.findById(id);
+    public UserRequestDisplay getUserById(String id){
+        Optional<Users> optionalUsers = usersRepository.findById(id);
 
         if(optionalUsers.isEmpty()){
             System.out.println("User with this Id: " + id + " not found");
         }
+        Users user = optionalUsers.get();
+        return new UserRequestDisplay(user);
 
-        return optionalUsers.get();
     }
 
-    public List<UsersRequest> getAllUsers(){
-       return usersRepository.findAll();
+    public List<UserRequestDisplay> getAllUsers(){
+        return usersRepository
+                .findAll()
+                .stream()
+                .map(UserRequestDisplay::new)
+                .toList();
     }
+    @Transactional
+    public UserRequestDisplay updateUser(String id, UsersRequest dto){
+        Users users = usersRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
 
-    public UsersRequest updateUser(String id, UsersRequest user){
-        if(!usersRepository.existsById(id)){
-            throw new BusinessException("User with this Id: " + id + " not found");
-
+        if (dto.getUsername() != null){
+            users.setUsername(dto.getUsername());
         }
-
-        validateUserUniqueness(user, id);
-        return usersRepository.save(user);
+        if (dto.getEmail() != null){
+            users.setEmail(dto.getEmail());
+        }
+        if (dto.getCpf() != null){
+            users.setCpf(dto.getCpf());
+        }
+        if (dto.getPassword() != null){
+            users.setPassword(dto.getPassword());
+        }
+        validateUserUniqueness(dto, id);
+        return new UserRequestDisplay(usersRepository.save(users));
     }
+
 
     public void deleteUser(String id){
-        Optional<UsersRequest> optionalUsers = usersRepository.findById(id);
+        Optional<Users> optionalUsers = usersRepository.findById(id);
         if(optionalUsers.isEmpty()){
             throw new UserNotFoundException("User with this Id: " + id + " not found");
         }
