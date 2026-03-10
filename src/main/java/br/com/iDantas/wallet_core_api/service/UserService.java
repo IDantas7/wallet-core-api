@@ -40,7 +40,12 @@ public class UserService {
                 .build());
     }
 
-    public void deleteUser(String id){
+    public Users findById(Integer id) throws  UserNotFoundException {
+        return usersRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException (String.format("Usuario nao encontrado no id %s", id)));
+    }
+
+    public void deleteUser(Integer id){
         Optional<Users> optionalUsers = usersRepository.findById(id);
         if(optionalUsers.isEmpty()){
             throw new UserNotFoundException("User with this Id: " + id + " not found");
