@@ -32,7 +32,7 @@ public class TransactionService {
         }
 
         if (sender.getId().equals(receive.getId())){
-            throw new SenderEqualsReceiverException("O Pagador nao pode ser o mesmo que recebe");
+            throw new SenderEqualsReceiverException("Voce nao pode transferir para si mesmo");
         }
 
     }
