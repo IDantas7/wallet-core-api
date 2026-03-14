@@ -1,7 +1,7 @@
 package br.com.iDantas.wallet_core_api.handler;
 
-import br.com.iDantas.wallet_core_api.exception.BusinessException;
-import br.com.iDantas.wallet_core_api.exception.UserNotFoundException;
+import br.com.iDantas.wallet_core_api.handler.exception.BusinessException;
+import br.com.iDantas.wallet_core_api.handler.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

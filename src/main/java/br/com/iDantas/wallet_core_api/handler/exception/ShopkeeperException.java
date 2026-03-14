@@ -1,4 +1,4 @@
-package br.com.iDantas.wallet_core_api.exception;
+package br.com.iDantas.wallet_core_api.handler.exception;
 
 public class ShopkeeperException extends RuntimeException{
     public  ShopkeeperException(Integer id){

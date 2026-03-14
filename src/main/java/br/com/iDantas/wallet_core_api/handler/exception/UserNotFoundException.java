@@ -1,4 +1,4 @@
-package br.com.iDantas.wallet_core_api.exception;
+package br.com.iDantas.wallet_core_api.handler.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message)
