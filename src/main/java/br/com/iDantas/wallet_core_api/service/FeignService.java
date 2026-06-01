@@ -1,5 +1,6 @@
 package br.com.iDantas.wallet_core_api.service;
 
+import br.com.iDantas.wallet_core_api.DTO.feign.AuthorizationResponse;
 import br.com.iDantas.wallet_core_api.feign.AuthorizationClient;
 import br.com.iDantas.wallet_core_api.feign.NotificationClient;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class FeignService {
-    private AuthorizationClient authorizationClient;
+
+    private final AuthorizationClient authorizationClient;
     private final NotificationClient notificationClient;
 
-    public AuthorizationClient getAuthorization(){
+    public AuthorizationResponse getAuthorization(){
         try {
             return authorizationClient.getAuthorization();
         }catch (Exception e){

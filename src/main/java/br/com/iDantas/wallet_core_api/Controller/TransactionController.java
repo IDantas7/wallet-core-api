@@ -1,0 +1,23 @@
+package br.com.iDantas.wallet_core_api.Controller;
+
+import br.com.iDantas.wallet_core_api.DTO.TranferRequest;
+import br.com.iDantas.wallet_core_api.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class TransactionController {
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @PostMapping("/transaction")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void  createTransaction(@RequestBody TranferRequest request)
+    {
+        transactionService.createTransfer(request);
+    }
+
+}

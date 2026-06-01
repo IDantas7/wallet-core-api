@@ -1,11 +1,13 @@
 package br.com.iDantas.wallet_core_api.service;
 
 import br.com.iDantas.wallet_core_api.DTO.TranferRequest;
+import br.com.iDantas.wallet_core_api.DTO.feign.AuthorizationResponse;
 import br.com.iDantas.wallet_core_api.database.model.Transactions;
 import br.com.iDantas.wallet_core_api.database.model.Users;
 import br.com.iDantas.wallet_core_api.database.repository.TransactionsRepository;
 import br.com.iDantas.wallet_core_api.enums.ClientType;
 import br.com.iDantas.wallet_core_api.handler.exception.InsuficienteBalanceException;
+import br.com.iDantas.wallet_core_api.handler.exception.NotAuthorizedTransactionException;
 import br.com.iDantas.wallet_core_api.handler.exception.SenderEqualsReceiverException;
 import br.com.iDantas.wallet_core_api.handler.exception.ShopkeeperException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class TransactionService {
 
     @Transactional
     public void createTransfer (TranferRequest request){
+
         Users sender = userService.findById(request.getPayer());
         Users receive = userService.findById(request.getPayee());
 
@@ -36,6 +39,11 @@ public class TransactionService {
         if (sender.getId().equals(receive.getId())){
             throw new SenderEqualsReceiverException("Voce nao pode transferir para si mesmo");
         }
+
+        AuthorizationResponse response = feignService.getAuthorization();
+        if(!response.getData().getAuthorization())
+            throw new NotAuthorizedTransactionException();
+
 
         sender.setBalance(sender.getBalance().subtract(request.getValue()));
         receive.setBalance(receive.getBalance().add(request.getValue()));
